@@ -1,24 +1,27 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import './App.css';
+import Backdrop from './components/Backdrop/Backdrop';
+import HomePage from './components/HomePage/HomePage';
 import PasswordProvider from './context/PasswordProvider';
-import AddPasswordModal from './components/AddPasswordModal';
-import PasswordList from './components/PasswordList';
-import TotalPasswords from './components/TotalPassword';
-import './App.css'
+import PasswordList from './components/PasswordForm/PasswordForm';
 
-const App = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function App() {
+  const [cartIsShown, setCartIsShown] = useState(false);
+
+  const showCart = () => {
+    setCartIsShown(true);
+  };
+  const hideCart = () => {
+    setCartIsShown(false);
+  };
 
   return (
     <PasswordProvider>
-      <div className="App">
-        <h1>Password Keeper</h1>
-        <TotalPasswords />
-        <button onClick={() => setIsModalOpen(true)}>Add New Password</button>
-        <AddPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        <PasswordList />
-      </div>
+      {cartIsShown && <Backdrop onClose={hideCart}/>}
+      <HomePage onShow={showCart}/>
+      <PasswordList/>
     </PasswordProvider>
   );
-};
+}
 
 export default App;
